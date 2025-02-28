@@ -1,0 +1,18 @@
+<h2>Confirm Your Order</h2>
+
+<p>Product: <%= @product.name %></p>
+<p>Price: $<%= @product.price %></p>
+
+<%= form_with model: @order, url: orders_path, method: :post do |f| %>
+  <div>
+    <%= f.label :quantity, "Quantity" %>
+    <%= f.number_field :quantity, value: 1, min: 1 %>
+  </div>
+
+  <%= f.hidden_field :product_id, value: @product.id %>
+  <%= f.hidden_field :total_amount, value: @product.price %>
+
+  <div>
+    <%= f.submit "Place Order", class: "btn" %>
+  </div>
+<% end %>

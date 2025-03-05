@@ -5,7 +5,17 @@ Rails.application.routes.draw do
 devise_for :customers, path: 'customer', path_names: { sign_in: 'login', sign_out: 'logout' }
 
 resources :products, only: [:index, :show]         
-resources :orders, only: [:new, :create]
+
+resource :cart, only: [:show] do
+  resources :cart_items, only: [:create, :destroy]
+  post 'add/:product_id', to: 'carts#add', as: 'add'
+  delete 'remove/:product_id', to: 'carts#remove', as: 'remove'
+  patch 'update/:product_id', to: 'carts#update', as: 'update'
+  post 'checkout', to: 'orders#create'
+end
+
+resources :orders, only: [:index, :show]
+
 
 root "home#index" 
 

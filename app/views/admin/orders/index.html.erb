@@ -1,166 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders - Electronics Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-        }
-        .dashboard {
-            display: flex;
-            width: 100%;
-        }
-        .sidebar {
-            width: 250px;
-            background: #2a2a72;
-            color: white;
-            padding: 20px;
-            height: 100vh;
-            position: fixed;
-        }
-        .sidebar h2 {
-            text-align: center;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            padding: 10px;
-            margin: 10px 0;
-            background: #3b3b98;
-            text-align: center;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .sidebar ul li:hover {
-            background: #575fcf;
-        }
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-        }
-        .content {
-            flex: 1;
-            padding: 20px;
-            margin-left: 260px;
-            width: calc(100% - 260px);
-        }
-        .topbar {
-            background: #ffffff;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .topbar h1 {
-            margin: 0;
-            font-size: 22px;
-            color: #2a2a72;
-        }
-        .user-info {
-            font-weight: bold;
-            color: #333;
-        }
-        .table-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background: #2a2a72;
-            color: white;
-        }
-        table tr:hover {
-            background: #f1f1f1;
-        }
-        .btn-primary {
-            background: #2a2a72;
-            color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .btn-primary:hover {
-            background: #575fcf;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard">
-        <aside class="sidebar">
-            <h2>Electronics Store</h2>
-            <ul>
-                <li><a href="/admin">Dashboard</a></li>
-                <li><a href="/admin/products">Products</a></li>
-                <li><a href="/admin/customers">Customers</a></li>
-                <li><a href="/admin/orders">Orders</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </aside>
 
-        <main class="content">
-            <header class="topbar">
-                <h1>Orders</h1>
-                <div class="user-info">
-                    <%= current_admin.email %><br>
-                    <%= button_to "Logout", destroy_admin_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger btn-sm" %>
-                </div>
-            </header>
 
-            <div class="table-container">
-                <h2>Orders List</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Total Amount</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @orders.each do |order| %>
-                            <tr>
-                                <td><%= order.id %></td>
-                                <td><%= order.customer.name %></td>
-                                <td>₹<%= number_with_delimiter(order.total_amount, delimiter: ",") %></td>
-                                <td><%= order.status %></td>
-                                <td>
-                                   
-                                    <%= link_to "Edit", edit_admin_order_path(order), class: "btn btn-warning btn-sm" %>
-                                    <%= button_to "Delete", admin_order_path(order), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
-                                </td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
-        </main>
+
+
+
+
+    <header class="topbar">
+    <h1>Orders</h1>
+    <div class="user-info">
+        <%= current_admin.email %><br>
+        <%= button_to "Logout", destroy_admin_session_path, method: :delete, data: { turbo: false }, class: "btn btn-logout" %>
     </div>
-</body>
-</html>
+</header>
+
+<center>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+</center>
+<div class="table-container">
+<h2>Orders List</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @orders.each do |order| %>
+            <tr>
+                <td><%= order.id %></td>
+                <td><%= order.customer.name %></td>
+                <td>₹<%= number_with_delimiter(order.total_amount, delimiter: ",") %></td>
+                <td><%= order.status %></td>
+                <td>
+                   
+                    <%= link_to "Edit", edit_admin_order_path(order), class: "btn btn-warning btn-sm" %>
+                    <%= button_to "Delete", admin_order_path(order), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+</div>
+
+

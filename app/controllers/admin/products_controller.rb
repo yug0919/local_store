@@ -1,10 +1,9 @@
-class Admin::ProductsController < ApplicationController
-    before_action :require_admin
-    before_action:authenticate_admin!
+class Admin::ProductsController < Admin::BaseController
+    
+
 
     def index
         @products = Product.all
-        # render json: @products
     end
     def show
         @product = Product.find(params[:id])
@@ -13,34 +12,37 @@ class Admin::ProductsController < ApplicationController
     def create
         @product = Product.new(product_params)
         if @product.save
-            render json: @product, status: :created
+          redirect_to admin_products_path, notice: "Product successfully created."
         else
-            render json: @product.errors, status: :unprocessable_entity
+          render :new, alert: "Error creating product."
         end
     end
+    def new
+        @product = Product.new
+    end
+    def edit
+        @product = Product.find(params[:id])
+    end
+
     def update
         @product = Product.find(params[:id])
         if @product.update(product_params)
-            render json: @product
+            redirect_to admin_products_path, notice: "Product successfully Updated."
         else
-            render json: @product.errors, status: :unprocessable_entity
+              render :edit, alert: "Error updating product."
         end
     end
     def destroy
         @product = Product.find(params[:id])
         if @product.destroy
-            render json: @product
+             redirect_to admin_products_path, notice: "Product successfully Deleted."
         else
             render json: @product.errors, status: :unprocessable_entity
         end
     end
     private
     def product_params
-        params.require(:product).permit(:name, :price, :description)
+        params.require(:product).permit(:name, :price, :description,:image_url)
     end
-    def require_admin
-        if !current_admin
-            render json: {error: "You must be an admin to access this page"}, status: :unauthorized
-        end
-    end
+
 end

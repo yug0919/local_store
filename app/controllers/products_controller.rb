@@ -7,7 +7,9 @@ class ProductsController < ApplicationController
     end
     def show
         @product = Product.find(params[:id])
-        render json: @product
+          @cart = current_customer.cart || current_customer.create_cart
+
+        # render json: @product
     end
     def create
         @product = Product.new(product_params)

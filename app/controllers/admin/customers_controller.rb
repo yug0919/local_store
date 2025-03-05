@@ -1,15 +1,18 @@
-class Admin::CustomersController < ApplicationController
-    before_action :require_admin
-    before_action :authenticate_admin!
+class Admin::CustomersController < Admin::BaseController
+
 
 
     def index
-        @customers = Customer.all
-        # render json: @customers
-    end
+        if params[:search].present?
+            @customers = Customer.where("name ILIKE ? OR email ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+          else
+            @customers = Customer.all
+          end
+                    end
     def show
         @customer = Customer.find(params[:id])
-        render json: @customer
+        render layout: false # This will disable the layout for the show action
+
     end
     def new
         @customer = Customer.new
@@ -31,15 +34,15 @@ class Admin::CustomersController < ApplicationController
     def update
         @customer = Customer.find(params[:id])
         if @customer.update(customer_params)
-            render json: @customer
+             redirect_to admin_customers_path, notice: "Customer updated successfully."
         else
-            render json: @customer.errors, status: :unprocessable_entity
+            redirect_to admin_customers_path, notice: "Error while update."
         end
     end
     def destroy
         @customer = Customer.find(params[:id])
         if @customer.destroy
-            render json: @customer
+            redirect_to admin_customers_path, notice: "Customer Delete Succesfully."
         else
             render json: @customer.errors, status: :unprocessable_entity
         end
@@ -50,9 +53,4 @@ class Admin::CustomersController < ApplicationController
     def customer_params
         params.require(:customer).permit(:name, :email, :phone, :address, :balance, :password, :password_confirmation)
       end
-    def require_admin
-        if !current_admin
-            render json: {error: "You must be an admin to access this page"}, status: :unauthorized
-        end
-    end
 end

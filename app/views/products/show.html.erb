@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= @product.name %> - GADA Electronic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a2a72;
+            padding: 15px 20px;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+            color: #f1c40f;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 15px;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+        .logout-btn:hover {
+            text-decoration: underline;
+            color: #f1c40f;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-details {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 80%;
+            text-align: center;
+        }
+        .product-details img {
+            max-width: 300px;
+            height: auto;
+        }
+        .price {
+            color: #2a2a72;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .cart-btn {
+            background-color: #2a2a72;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .cart-btn:hover {
+            background-color: #1e1e5a;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2a2a72;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><h2>GADA Electronic</h2></div>
+        <div>
+            <a href="/">Home</a>
+            <a href="/products">Products</a>
+            <a href="/cart">Cart (<span id="cart-count"><%= @cart&.cart_items&.count || 0 %></span>)</a>
+            <% if customer_signed_in? %>
+                <span>Welcome, <%= current_customer.name %>!</span>
+                <%= button_to "Logout", destroy_customer_session_path, method: :delete, class: "logout-btn" %>
+            <% else %>
+                <a href="<%= new_customer_session_path %>">Login</a>
+                <a href="<%= new_customer_registration_path %>">Sign Up</a>
+            <% end %>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="product-details">
+            <% if @product.image_url.present? %>
+                <img src="<%= @product.image_url %>" alt="<%= @product.name %>">
+            <% end %>
+            <h1><%= @product.name %></h1>
+            <p class="price">₹<%= @product.price %></p>
+            <p><%= @product.description.presence || "No description available." %></p>
+            <%= button_to "Add to Cart", add_cart_path(product_id: @product.id), method: :post, class: "cart-btn" %>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 GADA Electronic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

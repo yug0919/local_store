@@ -1,13 +1,16 @@
 class ProductsController < ApplicationController
-    skip_before_action :verify_authenticity_token
+    before_action :set_cart
 
+    def set_cart
+      @cart = Cart.find_or_create_by(customer_id: current_customer&.id) if customer_signed_in?
+    end
     def index
         @products = Product.all
         # render json: @products
     end
     def show
         @product = Product.find(params[:id])
-          @cart = current_customer.cart || current_customer.create_cart
+          @cart = current_customer.cart || current_customer.create_cart if customer_signed_in?
 
         # render json: @product
     end

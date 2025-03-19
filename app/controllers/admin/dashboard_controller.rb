@@ -1,7 +1,5 @@
 class Admin::DashboardController < Admin::BaseController
-
-
-
+  
   def index
     @products = Product.all
     @customers = Customer.all

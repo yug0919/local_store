@@ -185,9 +185,64 @@ table tr:hover {
     background-color: #1e1e5a;
 }
 
+.notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.5s ease-out forwards, fadeOut 4s ease-in forwards;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+}
+
+.notification.notice {
+    background: #28a745; /* Green */
+}
+
+.notification.alert {
+    background: #dc3545; /* Red */
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 
     </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <body>
     <div class="dashboard">
         <aside class="sidebar">
@@ -205,5 +260,14 @@ table tr:hover {
            <%= yield %>
         </main>
     </div>
+    <div class="notification-container">
+    <% if notice %>
+        <div class="notification notice"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+        <div class="notification alert"><%= alert %></div>
+    <% end %>
+</div>
+
 </body>
 </html>

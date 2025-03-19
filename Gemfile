@@ -68,3 +68,11 @@ group :test do
 end
 
 gem "activeadmin", "~> 3.2"
+
+
+
+#google auth implementyation
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection", "~> 1.0"

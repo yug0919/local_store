@@ -11,7 +11,7 @@ class Admin::CustomersController < Admin::BaseController
                     end
     def show
         @customer = Customer.find(params[:id])
-        render layout: false # This will disable the layout for the show action
+
 
     end
     def new
@@ -24,7 +24,7 @@ class Admin::CustomersController < Admin::BaseController
             flash[:notice] = "Customer successfully created!"
           redirect_to admin_customers_path, notice: "Customer created successfully."
         else
-            flash[:alert] = "Error creating customer. Please check the form."
+            flash[:alert] = @customer.errors.full_messages.join(",")
           render :new, status: :unprocessable_entity
         end
       end

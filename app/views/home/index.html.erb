@@ -140,8 +140,8 @@
                 text-align: center;
             }
             .search-bar input {
-                width: 95%;
-            }
+                width: 95% ;
+              }
         }
     </style>
 </head>
@@ -181,9 +181,9 @@
         <div class="products-section">
             <h2>Featured Products</h2>
                 <% @products.each do |product| %>
-                      <a href="<%= product_path(product) %>" style="text-decoration: none; color: inherit;">
+                      <a href="<%= product_path(product) %>" style="text-decoration: none; color: inherit ;" >
 
-                    <div class="product">
+                    <div class="product" >
                         <div>
                          <% if product.image_url.present? %>
       <%= image_tag product.image_url, alt: product.name, width: 200, height: 200 %>

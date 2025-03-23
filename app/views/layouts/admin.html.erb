@@ -239,6 +239,32 @@ table tr:hover {
 }
 
 
+
+
+
+.sidebar.hidden {
+            transform: translateX(-100% );
+        }
+        .content.expanded {
+            margin-left: 0;
+            width: 100% ;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 260px;
+            top: 20px;
+            background: #2a2a72;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            transition: left 0.3s ease;
+            border-radius: 5px;
+        }
+        .toggle-btn.collapsed {
+            left: 10px;
+        }
+
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -268,6 +294,17 @@ table tr:hover {
         <div class="notification alert"><%= alert %></div>
     <% end %>
 </div>
+<script>
+document.getElementById("toggleSidebar").addEventListener("click", function() {
+    let sidebar = document.getElementById("sidebar");
+    let content = document.getElementById("content");
+    let button = document.getElementById("toggleSidebar");
+    
+    sidebar.classList.toggle("hidden");
+    content.classList.toggle("expanded");
+    button.classList.toggle("collapsed");
+});
+</script>
 
 </body>
 </html>

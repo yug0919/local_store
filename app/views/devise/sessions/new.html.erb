@@ -4,101 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .form-container {
-            max-width: 400px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .form-container h2 {
-            margin-bottom: 20px;
-        }
-        .form-container .field {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        .form-container label {
-            font-weight: bold;
-            display: block;
-        }
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-container .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .form-container .actions {
-            margin-top: 20px;
-        }
-        .form-container .actions input {
-            background: #2a2a72;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .notice, .alert {
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-        }
-        .notice {
-            color: green;
-        }
-        .alert {
-            color: red;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="form-container">
-        <h2>Log in</h2>
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <div class="field">
-            <%= f.label :email %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<body class="flex justify-center items-center h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg text-center">
+     
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+          <%= resource_name == :customer ? "Customer Login" : "Admin Login" %>
+        </h2>
+
+        <p class="text-green-600 font-semibold"><%= notice %></p>
+        <p class="text-red-600 font-semibold"><%= alert %></p>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "space-y-4") do |f| %>
+          <div class="text-left">
+            <%= f.label :email, class: "font-semibold text-gray-700" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
           </div>
-          <div class="field">
-            <%= f.label :password %>
-            <%= f.password_field :password, autocomplete: "current-password" %>
+
+          <div class="text-left">
+            <%= f.label :password, class: "font-semibold text-gray-700" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
           </div>
           
           <% if devise_mapping.rememberable? %>
-            <div class="remember-me">
-              <%= f.check_box :remember_me %>
-              <%= f.label :remember_me %>
+            <div class="flex items-center space-x-2 mt-2">
+              <%= f.check_box :remember_me, class: "w-4 h-4" %>
+              <%= f.label :remember_me, class: "text-gray-700" %>
             </div>
           <% end %>
           
-          <div class="actions">
-            <%= f.submit "Log in" %>
+          <div class="mt-4">
+            <%= f.submit "Log in", class: "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200" %>
           </div>
         <% end %>
 
-        
+        <div class="my-4 text-gray-500">OR</div>
+
         <%= render "devise/shared/links" %>
     </div>
 </body>

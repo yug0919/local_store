@@ -107,8 +107,8 @@ cable:
   adapter: postgresql
   url: <%= ENV['DATABASE_URL'] %>
 cache:
-   <<: *primary_production
+   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
 queue:
-  <<: *primary_production
+  <<: *default
   url: <%= ENV['DATABASE_URL'] %>

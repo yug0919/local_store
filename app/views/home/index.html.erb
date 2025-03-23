@@ -125,10 +125,42 @@
     padding: 0 15px;
     transition: 0.3s;
     font-size: 1rem;
+    display: inline-block;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .logout-btn:hover {
-    text-decoration: underline;
+    text-decoration: inline;
+    color: #f1c40f;
+}
+.navbar div {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adjust spacing between elements */
+}
+
+.navbar div form {
+    display: inline; /* Ensure the logout form stays inline */
+    margin: 0; /* Remove any extra margin */
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 15px;
+    transition: 0.3s;
+    font-size: 1rem;
+    display: inline; 
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    text-decoration: underline ; 
     color: #f1c40f;
 }
         @media (max-width: 768px) {
@@ -150,12 +182,12 @@
         <div class="logo"><h2>GADA Electronic</h2></div>
         <div>
             <a href="/">Home</a>
-            <a href="/products">Products</a>
+              <% if customer_signed_in? %>
    <a href="/cart">Cart (<span id="cart-count"><%= @cart&.cart_items&.count || 0 %></span>)</a>
 
-            <% if customer_signed_in? %>
-                <span>Welcome, <%= current_customer.name %>!</span>
-<%= button_to "Logout", destroy_customer_session_path, method: :delete, class: "logout-btn" %>
+          
+                <span>Welcome, <%= current_customer.name %>!<span>
+<%= button_to "Logout", destroy_customer_session_path, method: :delete, class: "logout-btn" %></span>
             <% else %>
                 <a href="<%= new_customer_session_path %>">Login</a>
                 <a href="<%= new_customer_registration_path %>">Sign Up</a>

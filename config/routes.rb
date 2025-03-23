@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  get "home/index"
 
 
-devise_for :customers, path: 'customer', path_names: { sign_in: 'login', sign_out: 'logout' }
+
+
+devise_for :customers,path:'customer', path_names: { sign_in: 'login', sign_out: 'logout' },controllers: {
+  omniauth_callbacks: 'customers/omniauth_callbacks',
+  sessions: 'customers/sessions',
+  registrations: 'customers/registrations'
+}
 
 resources :products, only: [:index, :show]         
 

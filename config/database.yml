@@ -100,11 +100,10 @@ test:
 #     <<: *primary_production
 #     database: electronics_store_production_cable
 #     migrations_paths: db/cable_migrate
-
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
 
-  cable:
+cable:
   adapter: postgresql
-    url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>
